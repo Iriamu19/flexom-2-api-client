@@ -13,6 +13,13 @@ dependencies = [
     "python-dotenv>=1.0.1",
 ]
 
+[project.scripts]
+flexom-api-client = "flexom_api_client.cli:cli" 
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [dependency-groups]
 dev = [
     "ruff>=0.8.0",
