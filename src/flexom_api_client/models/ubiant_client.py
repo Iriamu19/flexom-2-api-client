@@ -1,4 +1,4 @@
-import configparser
+import json
 import os
 from pathlib import Path
 import tempfile
@@ -105,15 +105,14 @@ class UbiantClient:
 
     def _get_cached_or_new_connection_infos(self, force_new=False) -> dict | None:
         """Get cached connecton infos from a file or fetch a new one."""
-        cache_file_path = Path(tempfile.gettempdir()).joinpath("cached_flexom_connection.ini")
+        cache_file_path = Path(tempfile.gettempdir()).joinpath("cached_flexom_connection.json")
         if cache_file_path.exists():
             cache_file_path.chmod(0o600)
         if not force_new:
             cached_infos = None
-            infos_ini = configparser.ConfigParser()
             if Path(cache_file_path).exists():
-                infos_ini.read(cache_file_path)
-                cached_infos = infos_ini["INFOS"]
+                with open(cache_file_path, 'r') as file:
+                    cached_infos = json.load(file)
                 expected_keys = {"token", "building_id", "hemis_base_url"}
                 all_keys_present = expected_keys.issubset(cached_infos.keys())
                 if all_keys_present:
@@ -122,18 +121,17 @@ class UbiantClient:
                 logger.debug("No cached file.")
 
         logger.debug("Retrieving connection infos.")
-        new_infos = configparser.ConfigParser()
-        new_infos["INFOS"] = {}
+        new_infos = {}
         new_token = self._fetch_token()
-        new_infos["INFOS"]["token"] = new_token
+        new_infos["token"] = new_token
         self.token = new_token
         infos = self.get_my_infos()
-        new_infos["INFOS"]["building_id"] = infos[0]["buildingId"]
-        new_infos["INFOS"]["hemis_base_url"] = infos[0]["hemis_base_url"]
+        new_infos["building_id"] = infos[0]["buildingId"]
+        new_infos["hemis_base_url"] = infos[0]["hemis_base_url"]
         with open(cache_file_path, "w") as file:
-            new_infos.write(file)
+            json.dump(new_infos, file, indent=4)
         logger.debug("New token retrieved.")
-        return new_infos["INFOS"]
+        return new_infos
 
     def _fetch_token(self) -> str | None:
         """Fetch the token by logging in with email and password."""
