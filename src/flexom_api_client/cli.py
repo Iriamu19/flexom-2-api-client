@@ -3,7 +3,7 @@ from rich import print
 from rich.table import Table
 from rich.tree import Tree
 
-from .models import UbiantClient
+from .data_access import UbiantClient
 from .services import ActuatorService, IntelligentThingService
 
 

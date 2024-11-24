@@ -1,4 +1,5 @@
-from ..models import IntelligentThing, UbiantClient
+from ..models import IntelligentThing
+from ..data_access import UbiantClient
 from .actuator_service import ActuatorService
 
 
