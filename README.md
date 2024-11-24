@@ -24,26 +24,30 @@ This project provides a Python client library for interacting with the **Flexom 
 
 ## Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Iriamu19/flexom-hemis-api-client
-   cd flexom-api-client
-   ```
+1. Install the application :
 
-2. Install the required dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+- with pipx:
 
-3. Set up your environment variables:
-   ```bash
-   cp .env.example .env
-   ```
-   Update the `.env` file with your Ubiant credentials:
-   ```
-   EMAIL=your-ubiant-email
-   PASSWORD=your-ubiant-password
-   ```
+```
+pipx install git+https://github.com/Iriamu19/flexom-2-api-client
+```
+
+- with uv:
+
+```
+uv tool install git+https://github.com/Iriamu19/flexom-2-api-client
+```
+
+2. Set up your config file:
+
+Create a file in `$HOME/.config/flexom-api-client/config.json` with the following content:
+
+```json
+{
+  "EMAIL": "your-ubiant-email",
+  "PASSWORD": "your-ubiant-password"
+}
+```
 
 ---
 
