@@ -1,11 +1,11 @@
 import json
-from pathlib import Path
 import tempfile
+from pathlib import Path
 
 import requests
 
-from ..logger_config import logger
 from ..config import EMAIL, PASSWORD
+from ..logger_config import logger
 
 
 class ERROR_401(Exception):
@@ -102,11 +102,13 @@ class UbiantClient:
 
     def _get_cached_or_new_connection_infos(self, force_new=False) -> dict | None:
         """Get cached connecton infos from a file or fetch a new one."""
-        cache_file_path = Path(tempfile.gettempdir()).joinpath("cached_flexom_connection.json")
+        cache_file_path = Path(tempfile.gettempdir()).joinpath(
+            "cached_flexom_connection.json"
+        )
         if not force_new:
             cached_infos = None
             if Path(cache_file_path).exists():
-                with open(cache_file_path, 'r') as file:
+                with open(cache_file_path, "r") as file:
                     cached_infos = json.load(file)
                 expected_keys = {"token", "building_id", "hemis_base_url"}
                 all_keys_present = expected_keys.issubset(cached_infos.keys())

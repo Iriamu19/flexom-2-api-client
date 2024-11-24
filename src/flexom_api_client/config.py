@@ -20,7 +20,7 @@ def get_config_vars():
         logger.error("Config file not found.")
         exit()
 
-    with open(config_path, 'r') as file:
+    with open(config_path, "r") as file:
         json_config = json.load(file)
     for config_var in config_dict.keys():
         if config_dict[config_var] is None:
