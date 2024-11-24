@@ -1,14 +1,11 @@
 import json
-import os
 from pathlib import Path
 import tempfile
 
 import requests
-from dotenv import load_dotenv
 
 from ..logger_config import logger
-
-load_dotenv()
+from ..config import EMAIL, PASSWORD
 
 
 class ERROR_401(Exception):
@@ -135,8 +132,8 @@ class UbiantClient:
     def _fetch_token(self) -> str | None:
         """Fetch the token by logging in with email and password."""
         body = {
-            "email": os.getenv("EMAIL"),
-            "password": os.getenv("PASSWORD"),
+            "email": EMAIL,
+            "password": PASSWORD,
         }
         url = f"{self.base_url}/users/signin"
         response = self._make_request("POST", url, data=body)
