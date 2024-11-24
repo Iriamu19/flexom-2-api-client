@@ -106,8 +106,6 @@ class UbiantClient:
     def _get_cached_or_new_connection_infos(self, force_new=False) -> dict | None:
         """Get cached connecton infos from a file or fetch a new one."""
         cache_file_path = Path(tempfile.gettempdir()).joinpath("cached_flexom_connection.json")
-        if cache_file_path.exists():
-            cache_file_path.chmod(0o600)
         if not force_new:
             cached_infos = None
             if Path(cache_file_path).exists():
@@ -130,6 +128,7 @@ class UbiantClient:
         new_infos["hemis_base_url"] = infos[0]["hemis_base_url"]
         with open(cache_file_path, "w") as file:
             json.dump(new_infos, file, indent=4)
+        cache_file_path.chmod(0o600)
         logger.debug("New token retrieved.")
         return new_infos
 
