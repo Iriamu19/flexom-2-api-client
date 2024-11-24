@@ -1,4 +1,5 @@
-from ..models import Actuator, UbiantClient
+from ..models import Actuator
+from ..data_access import UbiantClient
 
 
 class ActuatorService:
